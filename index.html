@@ -4,13 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
   <title>Trounwiessel Wierder - Setz d'Buschtawen an déi richteg Reiefolleg</title>
+
+  <!-- Font preload + face -->
+  <link rel="preload"
+        href="https://raw.githubusercontent.com/albrechtclaire1007/schoulschreft/main/schoulschreft_bold%5B2%5D.TTF"
+        as="font" type="font/ttf" crossorigin>
   <style>
     @font-face{
       font-family:'Schoulschreft';
-      src:url('https://github.com/albrechtclaire1007/schoulschreft/raw/main/schoulschreft_bold%5B2%5D.TTF') format('truetype');
+      src: url('https://raw.githubusercontent.com/albrechtclaire1007/schoulschreft/main/schoulschreft_bold%5B2%5D.TTF') format('truetype');
+      font-weight:400; font-style:normal; font-display:swap;
     }
+    @font-face{
+      font-family:'Schoulschreft';
+      src: url('https://raw.githubusercontent.com/albrechtclaire1007/schoulschreft/main/schoulschreft_bold%5B2%5D.TTF') format('truetype');
+      font-weight:700; font-style:normal; font-display:swap;
+    }
+
     :root{ --blue:#1c2d4f; --gold:#f2ac3b; }
-    body{margin:0;padding:0;font-family:'Schoulschreft',Arial,sans-serif;background:#fff;min-height:100vh}
+    body{margin:0;padding:0;font-family:'Schoulschreft', -apple-system, system-ui, Arial, sans-serif;background:#fff;min-height:100vh}
     .header{background:#1c2d4f;color:#fff;text-align:center;padding:20px;font-size:28px;font-weight:bold;margin-bottom:30px}
     .container{max-width:1200px;margin:0 auto;padding:20px}
     .word-container{max-width:500px;margin:0 auto;background:#fff;border:3px solid var(--gold);border-radius:15px;padding:40px;text-align:center;box-shadow:0 4px 8px rgba(0,0,0,.1)}
@@ -64,7 +76,6 @@
   <script>
     function shuffleArray(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a; }
 
-    // Randomized word list
     let words = shuffleArray([
       { correct:"KROUN", scrambled:["N","R","O","U","K"], image:"https://i.postimg.cc/2qbG0wH6/temp-Image-JCn-WDB.avif", pronunciation:"d'Kroun", audio:"https://github.com/albrechtclaire1007/trounwiessel/raw/refs/heads/main/M__kroun.mp3" },
       { correct:"TROUN", scrambled:["R","N","T","U","O"], image:"https://i.postimg.cc/HrP30Ktx/temp-Image-FUGbdk.avif", pronunciation:"den Troun", audio:"https://github.com/albrechtclaire1007/trounwiessel/raw/refs/heads/main/M__troun.mp3" },
@@ -106,7 +117,7 @@
     function showCurrentWord(){
       document.getElementById('currentWord').innerHTML = createWordBlock(words[currentWordIndex]);
       document.getElementById('wordCounter').textContent=`Wuert ${currentWordIndex+1} vun ${words.length}`;
-      addDnD(); addTap(); // iPhone-friendly
+      addDnD(); addTap();
       const src=words[currentWordIndex].audio; if(audioEl.src!==src) audioEl.src=src; audioEl.play().catch(()=>{});
     }
 
@@ -188,9 +199,8 @@
     function updateNavigation(){ document.getElementById('prevBtn').disabled=currentWordIndex===0; document.getElementById('nextBtn').disabled=!completedWords.has(currentWordIndex)||currentWordIndex===words.length-1; }
     function playAudio(){ audioEl.currentTime=0; audioEl.play().catch(()=>{}); }
 
-    document.addEventListener('DOMContentLoaded', initializeGame);
+    document.addEventListener('DOMContentLoaded', ()=>{ showCurrentWord(); updateProgress(); updateNavigation(); });
   </script>
 </body>
 </html>
-
 
